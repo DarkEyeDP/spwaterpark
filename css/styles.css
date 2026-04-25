@@ -56,6 +56,7 @@ nav {
   background: rgba(254, 248, 230, 0.92);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(0, 119, 168, 0.15);
+  box-shadow: 0 2px 12px rgba(0, 40, 80, 0.1);
 }
 
 .nav-logo {
@@ -178,8 +179,6 @@ nav.scrolled {
 }
 
 @media (max-width: 580px) {
-  .nav-cd-title { display: none; }
-  .nav-cd-date  { display: none; }
   .nav-cd-item  { min-width: 32px; padding: 0.1rem 0.35rem; }
   .nav-cd-num   { font-size: 0.9rem; }
 }
@@ -213,7 +212,7 @@ nav.scrolled {
 .birds {
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 3;
   pointer-events: none;
   overflow: hidden;
 }
@@ -222,21 +221,72 @@ nav.scrolled {
   position: absolute;
   left: 0;
   color: rgba(10, 35, 66, 0.5);
-  animation: bird-fly linear infinite;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 .bird svg {
-  width: 38px;
-  height: auto;
+  width: 36px;
+  height: 36px;
   display: block;
 }
 
-@keyframes bird-fly {
-  0%   { transform: translateX(-100px) scale(var(--bs,1)) translateY(0px);   opacity: 0; }
-  4%   { opacity: 1; }
-  50%  { transform: translateX(50vw)   scale(var(--bs,1)) translateY(-18px); opacity: 1; }
-  96%  { opacity: 1; }
-  100% { transform: translateX(115vw)  scale(var(--bs,1)) translateY(6px);   opacity: 0; }
+/* gentle arc peaking mid-flight */
+@keyframes bird-path-1 {
+  0%   { transform: translateX(-60px) scale(var(--bs,1)) translateY(0px);   opacity: 0; }
+  5%   { opacity: 1; }
+  25%  { transform: translateX(25vw)  scale(var(--bs,1)) translateY(-28px); }
+  50%  { transform: translateX(50vw)  scale(var(--bs,1)) translateY(-48px); }
+  75%  { transform: translateX(75vw)  scale(var(--bs,1)) translateY(-22px); }
+  95%  { opacity: 1; }
+  100% { transform: translateX(115vw) scale(var(--bs,1)) translateY(-8px);  opacity: 0; }
+}
+
+/* dips down then swoops up high */
+@keyframes bird-path-2 {
+  0%   { transform: translateX(-60px) scale(var(--bs,1)) translateY(0px);   opacity: 0; }
+  5%   { opacity: 1; }
+  30%  { transform: translateX(30vw)  scale(var(--bs,1)) translateY(32px);  }
+  58%  { transform: translateX(58vw)  scale(var(--bs,1)) translateY(-44px); }
+  80%  { transform: translateX(80vw)  scale(var(--bs,1)) translateY(-18px); }
+  95%  { opacity: 1; }
+  100% { transform: translateX(115vw) scale(var(--bs,1)) translateY(-6px);  opacity: 0; }
+}
+
+/* gradual climb with a late dive */
+@keyframes bird-path-3 {
+  0%   { transform: translateX(-60px) scale(var(--bs,1)) translateY(10px);  opacity: 0; }
+  5%   { opacity: 1; }
+  20%  { transform: translateX(20vw)  scale(var(--bs,1)) translateY(-10px); }
+  50%  { transform: translateX(50vw)  scale(var(--bs,1)) translateY(-52px); }
+  70%  { transform: translateX(70vw)  scale(var(--bs,1)) translateY(-36px); }
+  88%  { transform: translateX(88vw)  scale(var(--bs,1)) translateY(18px);  }
+  95%  { opacity: 1; }
+  100% { transform: translateX(115vw) scale(var(--bs,1)) translateY(22px);  opacity: 0; }
+}
+
+/* multiple bouncy waves */
+@keyframes bird-path-4 {
+  0%   { transform: translateX(-60px) scale(var(--bs,1)) translateY(0px);   opacity: 0; }
+  5%   { opacity: 1; }
+  20%  { transform: translateX(20vw)  scale(var(--bs,1)) translateY(-34px); }
+  35%  { transform: translateX(35vw)  scale(var(--bs,1)) translateY(12px);  }
+  52%  { transform: translateX(52vw)  scale(var(--bs,1)) translateY(-42px); }
+  68%  { transform: translateX(68vw)  scale(var(--bs,1)) translateY(8px);   }
+  82%  { transform: translateX(82vw)  scale(var(--bs,1)) translateY(-26px); }
+  95%  { opacity: 1; }
+  100% { transform: translateX(115vw) scale(var(--bs,1)) translateY(-18px); opacity: 0; }
+}
+
+/* lazy drift — starts high, drifts low */
+@keyframes bird-path-5 {
+  0%   { transform: translateX(-60px) scale(var(--bs,1)) translateY(-30px); opacity: 0; }
+  5%   { opacity: 1; }
+  35%  { transform: translateX(35vw)  scale(var(--bs,1)) translateY(-50px); }
+  62%  { transform: translateX(62vw)  scale(var(--bs,1)) translateY(-14px); }
+  82%  { transform: translateX(82vw)  scale(var(--bs,1)) translateY(24px);  }
+  95%  { opacity: 1; }
+  100% { transform: translateX(115vw) scale(var(--bs,1)) translateY(32px);  opacity: 0; }
 }
 
 /* ── Sun ────────────────────────────────────────────────── */
@@ -262,6 +312,41 @@ nav.scrolled {
   100% { box-shadow: 0 0 90px 45px rgba(255,200,60,0.62), 0 0 200px 100px rgba(255,140,0,0.30); }
 }
 
+/* ── Pirate Ship ────────────────────────────────────────── */
+.hero-ship {
+  position: absolute;
+  bottom: 52px;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform;
+  animation: ship-sail 55s linear infinite;
+}
+
+.hero-ship-img {
+  width: clamp(140px, 18vw, 220px);
+  height: auto;
+  display: block;
+  opacity: 0.92;
+  transform-origin: center bottom;
+  will-change: transform;
+  animation: ship-rock 4s ease-in-out infinite;
+}
+
+@keyframes ship-sail {
+  0%   { transform: translateX(-260px); }
+  100% { transform: translateX(110vw); }
+}
+
+@keyframes ship-rock {
+  0%   { transform: translateY(0px)   rotate(0deg); }
+  20%  { transform: translateY(-9px)  rotate(1.8deg); }
+  50%  { transform: translateY(-3px)  rotate(-1deg); }
+  70%  { transform: translateY(-10px) rotate(2deg); }
+  85%  { transform: translateY(-2px)  rotate(-0.8deg); }
+  100% { transform: translateY(0px)   rotate(0deg); }
+}
+
 /* ── Wave transition ────────────────────────────────────── */
 .hero-waves {
   position: absolute;
@@ -275,6 +360,7 @@ nav.scrolled {
   bottom: 0;
   width: 200%;
   border-radius: 50% 50% 0 0;
+  will-change: transform;
   animation: wave-roll linear infinite;
 }
 
@@ -312,7 +398,7 @@ nav.scrolled {
 
 .hero-eyebrow .dot {
   width: 6px; height: 6px;
-  background: var(--coral);
+  background: var(--sand-warm);
   border-radius: 50%;
   animation: pulse-dot 2s infinite;
 }
@@ -392,26 +478,43 @@ nav.scrolled {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  background: linear-gradient(135deg, var(--coral), var(--coral-dark));
-  color: var(--white);
-  font-size: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  padding: 0.95rem 2.2rem;
-  border-radius: 100px;
-  border: none;
+  letter-spacing: 0.06em;
+  padding: 0.95rem 2.4rem;
+  border-radius: 7px;
+  border: 2.5px solid #B8820A;
   cursor: pointer;
   text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 8px 28px rgba(217, 48, 37, 0.45);
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+  color: var(--white);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
+  background-image:
+    radial-gradient(circle 4.5px at 16px 13px,                            #fff 0%, #ddd 22%, #999 52%, #444 74%, transparent 84%),
+    radial-gradient(circle 4.5px at calc(100% - 16px) 13px,               #fff 0%, #ddd 22%, #999 52%, #444 74%, transparent 84%),
+    radial-gradient(circle 4.5px at 16px calc(100% - 13px),               #fff 0%, #ddd 22%, #999 52%, #444 74%, transparent 84%),
+    radial-gradient(circle 4.5px at calc(100% - 16px) calc(100% - 13px),  #fff 0%, #ddd 22%, #999 52%, #444 74%, transparent 84%),
+    repeating-linear-gradient(89deg, transparent 0, transparent 3px, rgba(0,0,0,0.045) 3px, rgba(0,0,0,0.045) 4px),
+    linear-gradient(170deg, #D8914A 0%, #AA6422 38%, #C47830 62%, #9E5C18 100%);
+  box-shadow:
+    inset 0 2px 3px rgba(255, 210, 100, 0.4),
+    inset 0 -2px 5px rgba(50, 15, 0, 0.45),
+    0 6px 22px rgba(0, 0, 0, 0.38),
+    0 2px 0 rgba(184, 130, 10, 0.7);
 }
 
 .hero-cta:hover {
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 12px 40px rgba(217, 48, 37, 0.6);
+  filter: brightness(1.08);
+  box-shadow:
+    inset 0 2px 3px rgba(255, 210, 100, 0.4),
+    inset 0 -2px 5px rgba(50, 15, 0, 0.45),
+    0 10px 30px rgba(0, 0, 0, 0.45),
+    0 2px 0 rgba(184, 130, 10, 0.7);
 }
 
-.hero-cta:active { transform: translateY(0) scale(0.99); }
+.hero-cta:active { transform: translateY(1px) scale(0.99); filter: brightness(0.95); }
 
 /* ── Hero entrance animations ───────────────────────────── */
 @keyframes hero-enter {
@@ -557,6 +660,21 @@ nav.scrolled {
   font-weight: 600;
 }
 
+/* ─── MASCOT (mobile only) ──────────────────────────────── */
+.mascot-mobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .mascot-mobile {
+    display: block;
+    width: clamp(160px, 55vw, 260px);
+    height: auto;
+    margin: 0 auto 1rem;
+    filter: drop-shadow(0 6px 18px rgba(0, 40, 80, 0.18));
+  }
+}
+
 /* ─── FEATURES ─────────────────────────────────────────── */
 .about-section {
   background: linear-gradient(180deg, #fde7b0 0%, var(--sand) 100%);
@@ -604,6 +722,12 @@ nav.scrolled {
   margin: 0 auto 1.2rem;
 }
 
+.feature-icon img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
 .feature-title {
   font-family: 'Cinzel', serif;
   font-size: 1.05rem;
@@ -649,6 +773,18 @@ nav.scrolled {
   filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
 }
 
+.store-icon img {
+  width: 56px;
+  height: 56px;
+}
+
+@media (max-width: 767px) {
+  .store-icon img {
+    width: 100px;
+    height: 100px;
+  }
+}
+
 .store-text { flex: 1; min-width: 0; }
 
 .store-eyebrow {
@@ -678,22 +814,41 @@ nav.scrolled {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(135deg, var(--sand-warm), #c89020);
-  color: var(--navy);
-  font-size: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
   font-weight: 700;
-  padding: 0.9rem 2rem;
-  border-radius: 100px;
+  letter-spacing: 0.06em;
+  padding: 0.9rem 2.2rem;
+  border-radius: 7px;
+  border: 2.5px solid #B8820A;
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
-  box-shadow: 0 6px 24px rgba(237, 186, 69, 0.4);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+  color: var(--white);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
+  background-image:
+    radial-gradient(circle 4.5px at 16px 13px,                            #fff 0%, #ddd 22%, #999 52%, #444 74%, transparent 84%),
+    radial-gradient(circle 4.5px at calc(100% - 16px) 13px,               #fff 0%, #ddd 22%, #999 52%, #444 74%, transparent 84%),
+    radial-gradient(circle 4.5px at 16px calc(100% - 13px),               #fff 0%, #ddd 22%, #999 52%, #444 74%, transparent 84%),
+    radial-gradient(circle 4.5px at calc(100% - 16px) calc(100% - 13px),  #fff 0%, #ddd 22%, #999 52%, #444 74%, transparent 84%),
+    repeating-linear-gradient(89deg, transparent 0, transparent 3px, rgba(0,0,0,0.045) 3px, rgba(0,0,0,0.045) 4px),
+    linear-gradient(170deg, #D8914A 0%, #AA6422 38%, #C47830 62%, #9E5C18 100%);
+  box-shadow:
+    inset 0 2px 3px rgba(255, 210, 100, 0.4),
+    inset 0 -2px 5px rgba(50, 15, 0, 0.45),
+    0 6px 22px rgba(0, 0, 0, 0.38),
+    0 2px 0 rgba(184, 130, 10, 0.7);
 }
 
 .store-cta:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 32px rgba(237, 186, 69, 0.55);
+  filter: brightness(1.08);
+  box-shadow:
+    inset 0 2px 3px rgba(255, 210, 100, 0.4),
+    inset 0 -2px 5px rgba(50, 15, 0, 0.45),
+    0 10px 30px rgba(0, 0, 0, 0.45),
+    0 2px 0 rgba(184, 130, 10, 0.7);
 }
 
 /* ─── SOCIAL ────────────────────────────────────────────── */
