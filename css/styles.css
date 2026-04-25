@@ -167,21 +167,24 @@ nav.scrolled {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(0, 119, 168, 0.18);
-  border-radius: 6px;
+  background-image:
+    radial-gradient(ellipse at 25% 25%, rgba(255, 252, 235, 0.7) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 80%, rgba(180, 130, 50, 0.18) 0%, transparent 55%),
+    repeating-linear-gradient(
+      92deg,
+      transparent 0px, transparent 5px,
+      rgba(160, 110, 30, 0.04) 5px, rgba(160, 110, 30, 0.04) 6px
+    ),
+    linear-gradient(160deg, #f6e8c0 0%, #e9d49a 45%, #f2dfa8 70%, #e0c882 100%);
+  border: 1px solid #b8924a;
+  border-radius: 4px;
   padding: 0.12rem 0.5rem;
   min-width: 38px;
   position: relative;
-  overflow: hidden;
-}
-
-.nav-cd-item::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--ocean), var(--teal));
+  box-shadow:
+    inset 0 1px 2px rgba(255, 245, 200, 0.9),
+    inset 0 -1px 2px rgba(120, 75, 10, 0.2),
+    0 2px 5px rgba(100, 60, 10, 0.18);
 }
 
 .nav-cd-num {
@@ -189,10 +192,8 @@ nav.scrolled {
   font-size: 1.05rem;
   font-weight: 700;
   line-height: 1.15;
-  background: linear-gradient(135deg, var(--ocean), var(--teal));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #3a2008;
+  text-shadow: 0 1px 0 rgba(255, 230, 150, 0.6);
 }
 
 .nav-cd-lbl {
@@ -200,7 +201,7 @@ nav.scrolled {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(10, 35, 66, 0.42);
+  color: rgba(80, 45, 5, 0.6);
   line-height: 1;
 }
 
