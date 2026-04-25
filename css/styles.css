@@ -44,6 +44,51 @@ body {
   overflow-x: hidden;
 }
 
+/* ─── Visually Hidden (SEO / a11y) ─────────────────────── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── Skip Link ─────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.6rem 1.2rem;
+  background: var(--navy);
+  color: var(--white);
+  font-weight: 700;
+  border-radius: 0 0 6px 6px;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 0; }
+
+/* ─── Focus Indicators ──────────────────────────────────── */
+:focus-visible {
+  outline: 3px solid var(--ocean);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ─── Reduced Motion ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* ─── NAV ──────────────────────────────────────────────── */
 nav {
   position: fixed;
@@ -462,17 +507,6 @@ nav.scrolled {
   text-shadow: 0 1px 8px rgba(0, 50, 90, 0.25);
 }
 
-.hero-location {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.88);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin-bottom: 2rem;
-}
 
 .hero-cta {
   display: inline-flex;
@@ -527,7 +561,6 @@ nav.scrolled {
 .hero-logo-fallback { animation: hero-enter 0.8s ease both 0.38s; }
 .hero-tagline       { animation: hero-enter 0.7s ease both 0.54s; }
 .hero-sub           { animation: hero-enter 0.7s ease both 0.68s; }
-.hero-location      { animation: hero-enter 0.7s ease both 0.80s; }
 .hero-cta           { animation: hero-enter 0.8s ease both 0.94s; }
 
 /* ─── COUNTDOWN ────────────────────────────────────────── */
@@ -648,17 +681,6 @@ nav.scrolled {
 .countdown-number.ticking,
 .nav-cd-num.ticking { animation: cd-tick 0.28s ease; }
 
-.opening-date-note {
-  text-align: center;
-  margin-top: 2.5rem;
-  font-size: 0.9rem;
-  color: rgba(10, 35, 66, 0.52);
-}
-
-.opening-date-note strong {
-  color: var(--ocean);
-  font-weight: 600;
-}
 
 /* ─── MASCOT (mobile only) ──────────────────────────────── */
 .mascot-mobile {
